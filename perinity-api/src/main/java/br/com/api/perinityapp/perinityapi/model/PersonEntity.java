@@ -3,8 +3,6 @@ package br.com.api.perinityapp.perinityapi.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.scheduling.config.Task;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -33,7 +31,7 @@ public class PersonEntity {
 
     private String department;
 
-    @OneToMany(mappedBy = "assignedPerson", cascade = CascadeType.ALL) // uma tarefa pode ter varias pessoas
+    @OneToMany(mappedBy = "assignedPerson", cascade = CascadeType.ALL) // uma tarefa pode nenhuma ter varias pessoas
     @JsonIgnore
     private List<TaskEntity> tasks = new ArrayList<>();
 

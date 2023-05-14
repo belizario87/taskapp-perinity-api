@@ -1,7 +1,6 @@
 package br.com.api.perinityapp.perinityapi.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class PersonController {
     @Autowired
     private PersonRepository personRepository;
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<List<PersonEntity>> getAllPeople() {
         List<PersonEntity> people = personRepository.findAll();
         if (people.isEmpty()) {
@@ -34,7 +33,7 @@ public class PersonController {
         return ResponseEntity.ok(people);
     }
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<PersonEntity> addPerson(@RequestBody PersonEntity person) {
         PersonEntity savedPerson = personRepository.save(person);
         return ResponseEntity.status(201).body(savedPerson);
@@ -42,19 +41,15 @@ public class PersonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PersonEntity> updatePerson(@PathVariable String id, @RequestBody PersonEntity updatedPerson) {
-        Long parseId = Long.valueOf(id); // converte o id para long (o id é uma string e o id do banco é long)
-        Optional<PersonEntity> existingPersonOptional = personRepository.findById(parseId);
 
-        if (existingPersonOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (id == null) {
+
+            throw new PersonNotFoundException("Nenhuma pessoa encontrada");
         }
 
-        PersonEntity existingPerson = existingPersonOptional.get();
-        existingPerson.setName(updatedPerson.getName());
-        existingPerson.setDepartment(updatedPerson.getDepartment());
-
-        PersonEntity savedPerson = personRepository.save(existingPerson);
+        PersonEntity savedPerson = personRepository.save(updatedPerson);
         return ResponseEntity.ok(savedPerson);
+
     }
 
     @DeleteMapping("/{id}")

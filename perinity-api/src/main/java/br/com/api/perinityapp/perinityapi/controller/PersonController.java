@@ -1,6 +1,9 @@
 package br.com.api.perinityapp.perinityapi.controller;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.perinityapp.perinityapi.exception.PersonNotFoundException;
@@ -26,9 +30,6 @@ public class PersonController {
     @GetMapping("")
     public ResponseEntity<List<PersonEntity>> getAllPeople() {
         List<PersonEntity> people = personRepository.findAll();
-        if (people.isEmpty()) {
-            throw new PersonNotFoundException("Nenhuma pessoa encontrada"); // valida se a lista está vazia
-        }
 
         return ResponseEntity.ok(people);
     }
@@ -40,16 +41,22 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonEntity> updatePerson(@PathVariable String id, @RequestBody PersonEntity updatedPerson) {
+    public ResponseEntity<PersonEntity> updatePerson(@PathVariable String id,
+            @RequestBody PersonEntity updatedPerson) {
+        try {
+            Long personId = Long.parseLong(id);
 
-        if (id == null) {
-
-            throw new PersonNotFoundException("Nenhuma pessoa encontrada");
+            return personRepository.findById(personId)
+                    .map(person -> {
+                        person.setName(updatedPerson.getName());
+                        person.setDepartment(updatedPerson.getDepartment());
+                        PersonEntity updated = personRepository.save(person);
+                        return ResponseEntity.ok().body(updated);
+                    })
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
         }
-
-        PersonEntity savedPerson = personRepository.save(updatedPerson);
-        return ResponseEntity.ok(savedPerson);
-
     }
 
     @DeleteMapping("/{id}")

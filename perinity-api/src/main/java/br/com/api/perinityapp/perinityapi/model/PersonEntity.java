@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,8 +17,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "persons")
@@ -25,13 +26,14 @@ public class PersonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-
+    @Column(unique = true, name = "name")
     private String name;
-
+    @Column(name = "department")
     private String department;
 
-    @OneToMany(mappedBy = "assignedPerson", cascade = CascadeType.ALL) // uma tarefa pode nenhuma ter varias pessoas
+    @OneToMany(mappedBy = "assignedPerson", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<TaskEntity> tasks = new ArrayList<>();
 

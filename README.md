@@ -8,8 +8,8 @@ This repository contains the source code for the Perinity API, which is a RESTfu
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
+
+
 
 ## Introduction
 

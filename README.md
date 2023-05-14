@@ -6,8 +6,9 @@ This repository contains the source code for the Perinity API, which is a RESTfu
 
 - [Introduction](#introduction)
 - [Technologies](#technologies)
-- [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
+- [Getting Started](#getting-started)
+
 
 
 
@@ -24,6 +25,18 @@ The Perinity API is built using the following technologies:
 - Spring Data JPA
 - Hibernate
 - PostgreSQL
+
+## API Endpoints
+
+The Perinity API provides the following endpoints:
+
+- **GET /pessoas**: Retrieve a list of all people.
+- **POST /pessoas**: Create a new person.
+- **PUT /pessoas/{id}**: Update an existing person.
+- **DELETE /pessoas/{id}**: Delete a person.
+- **PUT /tarefas/alocar/{id}**: Assign a person to a task.
+- **PUT /tarefas/finalizar/{id}**: Mark a task as finished.
+- **POST /tarefas**: Create a new task.
 
 ## Getting Started
 
@@ -54,7 +67,7 @@ To get started with the Perinity API, follow these steps:
       ```shell
       docker-compose down
 
-8. 7. That's it! Now you can explore and use the project.
+8. That's it! Now you can explore and use the project.
 
 ## Notes
 
@@ -72,8 +85,9 @@ To get started with the Perinity API, follow these steps:
    spring.datasource.password=postgres
    
 10. Run the aplication:
-
    ```shell
    mvn spring-boot:run
+
+
 
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.perinityapp.perinityapi.Service.PersonService;
+import br.com.api.perinityapp.perinityapi.Service.TaskService;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
 import br.com.api.perinityapp.perinityapi.model.TaskEntity;
 import br.com.api.perinityapp.perinityapi.repository.PersonRepository;
@@ -25,46 +27,26 @@ import lombok.Setter;
 public class TaskController {
 
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskService taskService;
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonService personService;
 
-    // @PutMapping("/alocar/{id}")
-    // public ResponseEntity<TaskEntity> allocateTask(@PathVariable Long id,
-    // @RequestBody PersonEntity person) {
-    // Optional<TaskEntity> taskOptional = taskRepository.findById(id);
+    @PutMapping("/alocar/{id}")
+    public ResponseEntity<TaskEntity> allocateTask(@PathVariable Long id,
+            @RequestBody PersonEntity person) {
 
-    // if (taskOptional.isEmpty()) {
-    // return ResponseEntity.notFound().build();
-    // }
+        TaskEntity task = taskService.allocateTask(id, person);
 
-    // TaskEntity task = taskOptional.get();
-
-    // // Verifica se a pessoa pertence ao mesmo departamento da tarefa
-    // if (!person.getDepartment().equals(task.getDepartment())) {
-    // return ResponseEntity.badRequest().build();
-    // }
-
-    // task.setAssignedPerson(person);
-    // taskRepository.save(task);
-
-    // return ResponseEntity.ok(task);
-    // }
+        return ResponseEntity.ok(task);
+    }
 
     @PutMapping("/finalizar/{id}")
     public ResponseEntity<TaskEntity> finishTask(@PathVariable Long id) {
-        Optional<TaskEntity> taskOptional = taskRepository.findById(id);
 
-        if (taskOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        TaskEntity finishedTask = taskService.finishTask(id);
+        return ResponseEntity.ok(finishedTask);
 
-        TaskEntity task = taskOptional.get();
-        task.setFinished(true);
-        taskRepository.save(task);
-
-        return ResponseEntity.ok(task);
     }
 
     // @GetMapping("/pendentes")
@@ -74,15 +56,7 @@ public class TaskController {
 
     @PostMapping("")
     public ResponseEntity<TaskEntity> addTask(@RequestBody TaskEntity task) {
-        // Salvar a pessoa antes de salvar a tarefa
-        PersonEntity assignedPerson = task.getAssignedPerson();
-        assignedPerson = personRepository.save(assignedPerson);
-
-        // Atribuir a pessoa salva à tarefa
-        task.setAssignedPerson(assignedPerson);
-
-        // Salvar a tarefa
-        TaskEntity savedTask = taskRepository.save(task);
+        TaskEntity savedTask = taskService.addTask(task);
         return ResponseEntity.ok(savedTask);
     }
 }

@@ -1,6 +1,7 @@
 package br.com.api.perinityapp.perinityapi.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.exception.PersonNotFoundException;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
 import br.com.api.perinityapp.perinityapi.repository.PersonRepository;
@@ -27,11 +29,28 @@ public class PersonController {
     @Autowired
     private PersonRepository personRepository;
 
-    @GetMapping("")
-    public ResponseEntity<List<PersonEntity>> getAllPeople() {
-        List<PersonEntity> people = personRepository.findAll();
+    @Autowired
+    private PersonTaskDTO personTaskDTO;
 
-        return ResponseEntity.ok(people);
+    public PersonController(PersonRepository personRepository, PersonTaskDTO personTaskDTO) {
+        this.personRepository = personRepository;
+        this.personTaskDTO = personTaskDTO;
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<PersonTaskDTO>> getAllPeople() {
+        List<PersonEntity> people = personRepository.findAll();
+        List<PersonTaskDTO> personTaskDTOs = new ArrayList<>();
+
+        for (PersonEntity person : people) {
+            person.getTasks().size();
+            PersonTaskDTO personTaskDTO = new PersonTaskDTO();
+            personTaskDTO.setPerson(person);
+            personTaskDTO.setTasks(person.getTasks());
+            personTaskDTOs.add(personTaskDTO);
+        }
+
+        return ResponseEntity.ok(personTaskDTOs);
     }
 
     @PostMapping("")

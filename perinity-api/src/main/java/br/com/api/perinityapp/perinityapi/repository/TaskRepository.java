@@ -11,6 +11,6 @@ import br.com.api.perinityapp.perinityapi.model.TaskEntity;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
-    List<TaskEntity> findByAssignedPerson(PersonEntity assignedPerson);
+    List<TaskEntity> findByAssignedPerson(PersonEntity person);
 
 }

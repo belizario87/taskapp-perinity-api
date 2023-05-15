@@ -51,7 +51,9 @@ To get started with the Perinity API, follow these steps:
 
    ```shell
    cd perinity-api 
-3. Build the project using Maven::
+3. Build the project using Maven:
+   ```shell
+   mvn clean install
 
 4. Run the following command to start the Docker containers:
      ```shell
@@ -74,9 +76,6 @@ To get started with the Perinity API, follow these steps:
 - Make sure you have Docker installed and running on your machine.
 
 
-
-   ```shell
-   mvn clean install
 9. CConfigure the database connection in the application.properties file:
 
    ```shell

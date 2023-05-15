@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.perinityapp.perinityapi.Service.PersonService;
-import br.com.api.perinityapp.perinityapi.Service.TaskService;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
 import br.com.api.perinityapp.perinityapi.model.TaskEntity;
 import br.com.api.perinityapp.perinityapi.repository.PersonRepository;
 import br.com.api.perinityapp.perinityapi.repository.TaskRepository;
+import br.com.api.perinityapp.perinityapi.service.PersonService;
+import br.com.api.perinityapp.perinityapi.service.TaskService;
 import lombok.Getter;
 import lombok.Setter;
 

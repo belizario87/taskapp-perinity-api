@@ -1,4 +1,4 @@
-package br.com.api.perinityapp.perinityapi.Service;
+package br.com.api.perinityapp.perinityapi.service;
 
 import java.util.List;
 

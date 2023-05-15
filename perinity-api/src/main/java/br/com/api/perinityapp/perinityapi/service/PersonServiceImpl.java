@@ -1,9 +1,13 @@
-package br.com.api.perinityapp.perinityapi.Service;
+package br.com.api.perinityapp.perinityapi.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.exception.PersonNotFoundException;
@@ -60,24 +64,21 @@ public class PersonServiceImpl implements PersonService {
         personRepository.deleteById(id);
     }
 
-    // @GetMapping("/gastos")
-    // public Map<String, Double> getPeopleAverageTaskCost(@RequestParam String
-    // name, @RequestParam LocalDate startDate,
-    // @RequestParam LocalDate endDate) {
-    // List<PersonEntity> people =
-    // personRepository.findByNameContainingAndTasksDeadlineBetween(name, startDate,
-    // endDate);
-    // Map<String, Double> averageTaskCosts = new HashMap<>();
+    public Map<String, Double> getPersonAvgTask(@RequestParam String name, @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
+        List<PersonEntity> people = personRepository.findByNameContainingAndTasksDeadlineBetween(name, startDate,
+                endDate);
+        Map<String, Double> averageTaskCosts = new HashMap<>();
 
-    // for (PersonEntity person : people) {
-    // double totalDuration = person.getTasks().stream()
-    // .mapToDouble(task -> task.getDuration().toHours())
-    // .sum();
-    // double averageTaskCost = totalDuration / person.getTasks().size();
-    // averageTaskCosts.put(person.getName(), averageTaskCost);
-    // }
+        for (PersonEntity person : people) {
+            double totalDuration = person.getTasks().stream()
+                    .mapToDouble(task -> task.getDuration().toHours())
+                    .sum();
+            double averageTaskCost = totalDuration / person.getTasks().size();
+            averageTaskCosts.put(person.getName(), averageTaskCost);
+        }
 
-    // return averageTaskCosts;
-    // }
+        return averageTaskCosts;
+    }
 
 }

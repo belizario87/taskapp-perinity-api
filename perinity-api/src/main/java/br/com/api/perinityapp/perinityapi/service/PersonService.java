@@ -1,6 +1,8 @@
-package br.com.api.perinityapp.perinityapi.Service;
+package br.com.api.perinityapp.perinityapi.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
@@ -14,6 +16,5 @@ public interface PersonService {
 
     public void deletePerson(Long id);
 
-    // public Map<String, Double> getPeopleAverageTaskCost(String name, LocalDate
-    // startDate, LocalDate endDate);
+    public Map<String, Double> getPersonAvgTask(String name, LocalDate startDate, LocalDate endDate);
 }

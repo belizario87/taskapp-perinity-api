@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
+    private final PersonTaskDTO personTaskDTO;
 
     @Override
     public PersonEntity addPerson(PersonEntity person) {
@@ -34,7 +35,8 @@ public class PersonServiceImpl implements PersonService {
         PersonEntity personToUpdate = personRepository.findById(id).orElseThrow();
         personToUpdate.setName(person.getName());
         personToUpdate.setDepartment(person.getDepartment());
-        personToUpdate.setTasks(person.getTasks());
+
+        personRepository.save(personToUpdate);
         return personToUpdate;
 
     }

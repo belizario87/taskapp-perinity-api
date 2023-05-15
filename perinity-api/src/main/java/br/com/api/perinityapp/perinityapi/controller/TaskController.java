@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,7 +42,7 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
-    @PutMapping("/finalizar/{id}")
+    @DeleteMapping("/finalizar/{id}")
     public ResponseEntity<TaskEntity> finishTask(@PathVariable Long id) {
 
         TaskEntity finishedTask = taskService.finishTask(id);

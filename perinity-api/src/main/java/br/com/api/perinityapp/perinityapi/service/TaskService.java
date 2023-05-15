@@ -13,4 +13,5 @@ public interface TaskService {
     // public List<TaskEntity> getPendingTasks();
 
     public TaskEntity addTask(TaskEntity task);
+
 }

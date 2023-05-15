@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.api.perinityapp.perinityapi.exception.DepartmentMismatchException;
 import br.com.api.perinityapp.perinityapi.exception.TaskNotFoundException;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
 import br.com.api.perinityapp.perinityapi.model.TaskEntity;
@@ -30,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
 
         // Verifica se a pessoa pertence ao mesmo departamento da tarefa
         if (!person.getDepartment().equals(task.getDepartment())) {
-            return task;
+            throw new DepartmentMismatchException("Department mismatch");
         }
 
         task.setAssignedPerson(person);
@@ -56,9 +57,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskEntity addTask(TaskEntity task) {
         PersonEntity assignedPerson = task.getAssignedPerson();
-        assignedPerson = personRepository.save(assignedPerson);
 
-        task.setAssignedPerson(assignedPerson);
+        if (assignedPerson != null) {
+            assignedPerson = personRepository.save(assignedPerson);
+
+            task.setAssignedPerson(assignedPerson);
+        }
 
         TaskEntity savedTask = taskRepository.save(task);
         return savedTask;

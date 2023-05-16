@@ -30,13 +30,19 @@ The Perinity API is built using the following technologies:
 
 The Perinity API provides the following endpoints:
 
-- **GET /pessoas**: Retrieve a list of all people.
+
+- **GET /pessoas**: List people bringing name, department, total hours spent on tasks.
 - **POST /pessoas**: Create a new person.
 - **PUT /pessoas/{id}**: Update an existing person.
+- **GET /pessoas/gastos**: Searching people by name and time period returns the average hours spent per task.
+- **GET /pessoas/listartudo**: Retrieve a list of all person and tasks alocated.
 - **DELETE /pessoas/{id}**: Delete a person.
+- **GET /tarefas/pendentes**: List 3 tasks that are without an allocated person with the oldest deadlines.
 - **PUT /tarefas/alocar/{id}**: Assign a person to a task.
 - **PUT /tarefas/finalizar/{id}**: Mark a task as finished.
 - **POST /tarefas**: Create a new task.
+- **GET /departamentos**: List department and number of people and tasks.
+
 
 ## Getting Started
 

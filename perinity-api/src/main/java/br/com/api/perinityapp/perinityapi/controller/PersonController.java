@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.perinityapp.perinityapi.dto.PersonDTO;
 import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
 import br.com.api.perinityapp.perinityapi.service.PersonService;
@@ -27,7 +28,7 @@ import lombok.AllArgsConstructor;
 public class PersonController {
     private final PersonService personService;
 
-    @GetMapping("")
+    @GetMapping("/listartudo")
     public ResponseEntity<List<PersonTaskDTO>> getAllPerson() {
         List<PersonTaskDTO> personTaskDTOs = personService.getAllPerson();
         return ResponseEntity.ok().body(personTaskDTOs);
@@ -53,12 +54,17 @@ public class PersonController {
     }
 
     @GetMapping("/gastos")
-    public ResponseEntity<Map<String, Double>> getPersonAverageTaskCost(
-            @RequestParam String name,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+    public ResponseEntity<List<PersonDTO>> getPersonWithTaskDuration() {
+        List<PersonDTO> people = personService.getNameDepartmentAvgTask(); // pega as pessoas com a duração média de
+                                                                           // tarefas
 
-        Map<String, Double> averageTaskCosts = personService.getPersonAvgTask(name, startDate, endDate);
-        return ResponseEntity.ok(averageTaskCosts);
+        return ResponseEntity.ok(people);
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<PersonDTO>> getPersonTotalHours() {
+        List<PersonDTO> people = personService.getNameDepartmentTotalTaskDuration();
+        return ResponseEntity.ok(people);
+    }
+
 }

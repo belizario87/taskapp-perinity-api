@@ -18,4 +18,5 @@ import lombok.RequiredArgsConstructor;
 public class PersonTaskDTO {
     private PersonEntity person;
     List<TaskEntity> tasks = new ArrayList<>();
+
 }

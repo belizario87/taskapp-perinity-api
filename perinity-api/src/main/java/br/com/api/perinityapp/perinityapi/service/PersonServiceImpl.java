@@ -1,14 +1,11 @@
 package br.com.api.perinityapp.perinityapi.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.api.perinityapp.perinityapi.dto.PersonDTO;
 import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.exception.PersonNotFoundException;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
@@ -20,7 +17,6 @@ import lombok.AllArgsConstructor;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
-    private final PersonTaskDTO personTaskDTO;
 
     @Override
     public PersonEntity addPerson(PersonEntity person) {
@@ -47,10 +43,11 @@ public class PersonServiceImpl implements PersonService {
         List<PersonTaskDTO> personTaskDTOs = new ArrayList<>();
 
         for (PersonEntity person : people) {
-            person.getTasks().size();
             PersonTaskDTO personTaskDTO = new PersonTaskDTO();
+
             personTaskDTO.setPerson(person);
             personTaskDTO.setTasks(person.getTasks());
+
             personTaskDTOs.add(personTaskDTO);
         }
 
@@ -66,21 +63,50 @@ public class PersonServiceImpl implements PersonService {
         personRepository.deleteById(id);
     }
 
-    public Map<String, Double> getPersonAvgTask(@RequestParam String name, @RequestParam LocalDate startDate,
-            @RequestParam LocalDate endDate) {
-        List<PersonEntity> people = personRepository.findByNameContainingAndTasksDeadlineBetween(name, startDate,
-                endDate);
-        Map<String, Double> averageTaskCosts = new HashMap<>();
+    @Override
+    public List<PersonDTO> getNameDepartmentAvgTask() {
+        List<PersonEntity> people = personRepository.findAll();
+        List<PersonDTO> personDTOs = new ArrayList<>();
 
         for (PersonEntity person : people) {
-            double totalDuration = person.getTasks().stream()
+            PersonDTO personDTO = new PersonDTO();
+
+            personDTO.setName(person.getName());
+            personDTO.setDepartment(person.getDepartment());
+
+            double totalDuration = person.getTasks()
+                    .stream()
                     .mapToDouble(task -> task.getDuration().toHours())
                     .sum();
-            double averageTaskCost = totalDuration / person.getTasks().size();
-            averageTaskCosts.put(person.getName(), averageTaskCost);
+
+            double avgTaskDuration = totalDuration / person.getTasks().size();
+            personDTO.setAverageTaskDuration(avgTaskDuration);
+
+            personDTOs.add(personDTO);
         }
 
-        return averageTaskCosts;
+        return personDTOs;
+    }
+
+    public List<PersonDTO> getNameDepartmentTotalTaskDuration() {
+        List<PersonEntity> people = personRepository.findAll();
+        List<PersonDTO> personDTOs = new ArrayList<>();
+
+        for (PersonEntity person : people) {
+
+            double totalDuration = person.getTasks()
+                    .stream()
+                    .mapToDouble(task -> task.getDuration().toHours())
+                    .sum();
+            PersonDTO personDTO = new PersonDTO();
+            personDTO.setName(person.getName());
+            personDTO.setDepartment(person.getDepartment());
+            personDTO.setTotalTaskDuration(totalDuration);
+
+            personDTOs.add(personDTO);
+        }
+
+        return personDTOs;
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.api.perinityapp.perinityapi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -66,6 +67,15 @@ public class TaskServiceImpl implements TaskService {
 
         TaskEntity savedTask = taskRepository.save(task);
         return savedTask;
+    }
+
+    @Override
+    public List<TaskEntity> getPendingTasks() {
+        List<TaskEntity> pendingTasks = taskRepository
+
+                .findTop3ByAssignedPersonIsNullOrderByDeadlineAsc();
+
+        return pendingTasks;
     }
 
 }

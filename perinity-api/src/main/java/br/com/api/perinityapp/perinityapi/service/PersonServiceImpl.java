@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.com.api.perinityapp.perinityapi.dto.DepartmentDTO;
 import br.com.api.perinityapp.perinityapi.dto.PersonDTO;
 import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.exception.PersonNotFoundException;
@@ -107,6 +108,12 @@ public class PersonServiceImpl implements PersonService {
         }
 
         return personDTOs;
+    }
+
+    @Override
+    public List<DepartmentDTO> getDepartmentsWithCounts() {
+        List<DepartmentDTO> departmentsWithCounts = personRepository.findDepartmentsWithCounts();
+        return departmentsWithCounts;
     }
 
 }

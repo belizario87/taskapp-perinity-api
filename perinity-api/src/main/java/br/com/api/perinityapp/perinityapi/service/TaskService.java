@@ -10,7 +10,7 @@ public interface TaskService {
 
     public TaskEntity finishTask(Long id);
 
-    // public List<TaskEntity> getPendingTasks();
+    public List<TaskEntity> getPendingTasks();
 
     public TaskEntity addTask(TaskEntity task);
 

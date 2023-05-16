@@ -15,4 +15,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     @Query("SELECT t FROM TaskEntity t WHERE t.assignedPerson = :person")
     List<TaskEntity> findByAssignedPerson(PersonEntity person);
 
+    List<TaskEntity> findTop3ByAssignedPersonIsNullOrderByDeadlineAsc();
+
 }

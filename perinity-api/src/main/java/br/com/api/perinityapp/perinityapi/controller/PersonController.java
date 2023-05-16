@@ -1,10 +1,7 @@
 package br.com.api.perinityapp.perinityapi.controller;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.perinityapp.perinityapi.dto.DepartmentDTO;
 import br.com.api.perinityapp.perinityapi.dto.PersonDTO;
 import br.com.api.perinityapp.perinityapi.dto.PersonTaskDTO;
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
@@ -64,6 +61,12 @@ public class PersonController {
     @GetMapping("")
     public ResponseEntity<List<PersonDTO>> getPersonTotalHours() {
         List<PersonDTO> people = personService.getNameDepartmentTotalTaskDuration();
+        return ResponseEntity.ok(people);
+    }
+
+    @GetMapping("/departamentos")
+    public ResponseEntity<List<DepartmentDTO>> getDepartmentsWithCounts() {
+        List<DepartmentDTO> people = personService.getDepartmentsWithCounts();
         return ResponseEntity.ok(people);
     }
 

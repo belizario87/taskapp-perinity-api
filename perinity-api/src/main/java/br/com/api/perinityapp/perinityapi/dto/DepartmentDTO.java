@@ -10,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class PersonDTO {
+public class DepartmentDTO {
 
-    private String name;
-    private String department;
-    private double averageTaskDuration;
-    private double totalTaskDuration;
+    private String departmentName;
+    private Long personCount;
+    private Long taskCount;
 
 }

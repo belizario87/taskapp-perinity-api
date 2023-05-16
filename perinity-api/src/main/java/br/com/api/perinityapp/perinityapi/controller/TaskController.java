@@ -1,10 +1,11 @@
 package br.com.api.perinityapp.perinityapi.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.perinityapp.perinityapi.model.PersonEntity;
 import br.com.api.perinityapp.perinityapi.model.TaskEntity;
-import br.com.api.perinityapp.perinityapi.repository.PersonRepository;
-import br.com.api.perinityapp.perinityapi.repository.TaskRepository;
+
 import br.com.api.perinityapp.perinityapi.service.PersonService;
 import br.com.api.perinityapp.perinityapi.service.TaskService;
 import lombok.Getter;
@@ -50,10 +50,11 @@ public class TaskController {
 
     }
 
-    // @GetMapping("/pendentes")
-    // public List<TaskEntity> getPendingTasks() {
-    // return taskRepository.findTop3ByAssignedPersonIsNullOrderByDeadlineAsc();
-    // }
+    @GetMapping("/pendentes")
+    public ResponseEntity<List<TaskEntity>> getPersonWithPendingTasks() {
+        List<TaskEntity> pedingTasks = taskService.getPendingTasks();
+        return ResponseEntity.ok(pedingTasks);
+    }
 
     @PostMapping("")
     public ResponseEntity<TaskEntity> addTask(@RequestBody TaskEntity task) {

@@ -28,14 +28,14 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonEntity updatePerson(Long id, PersonEntity person) {
+        PersonEntity personToUpdate = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException("Pessoa nao encontrada"));
 
-        PersonEntity personToUpdate = personRepository.findById(id).orElseThrow();
         personToUpdate.setName(person.getName());
         personToUpdate.setDepartment(person.getDepartment());
 
         personRepository.save(personToUpdate);
         return personToUpdate;
-
     }
 
     @Override
